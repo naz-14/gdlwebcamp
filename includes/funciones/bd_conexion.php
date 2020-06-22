@@ -1,6 +1,12 @@
 <?php
-
-    $conn = new mysqli('localhost', 'root', 'pWned1412','gdlwebcamp');
-    if($conn->connect_error){
-        echo $error -> $conn-> $connect_error;
-    }
+$user = 'root';
+$password = 'root';
+$db = 'gdlwebcamp';
+$host = 'localhost';
+$port = 8889;
+// Create connection 
+$conn = new mysqli($host, $user, $password, $db, $port);
+// Check connection 
+if (mysqli_connect_errno()) {
+  die("Connection failed: " .  mysqli_connect_error());
+}

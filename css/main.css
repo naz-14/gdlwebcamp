@@ -280,6 +280,13 @@ h1.nombre-sitio {
 .barra {
   background-color: #353535;
 }
+.barra.fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
 .logo {
   width: 80%;
   float: left;
@@ -295,6 +302,7 @@ h1.nombre-sitio {
 /******Navegacion principalñ******/
 .navegacion-principal {
   display: none;
+  width: 100%;
 }
 .navegacion-principal a {
   font-family: "Oswald", sans-serif;
@@ -307,6 +315,7 @@ h1.nombre-sitio {
   display: block;
   text-align: center;
   margin-bottom: 20px;
+  clear: both;
 }
 .navegacion-principal a:hover {
   background-color: #fe4918;
@@ -733,6 +742,14 @@ blockquote p::before {
 }
 
 /*Internas*/
+.navegacion-principal .activo {
+  border-bottom: 2px solid #fe4918;
+}
+/*Galeria*/
+.galeria a {
+  display: inline-block;
+  margin-bottom: 5px;
+}
 /**Registro*/
 form.registro h3 {
   text-align: center;
@@ -851,6 +868,7 @@ h4 {
 }
 .calendario h3 {
   margin-bottom: 1rem;
+  text-transform: capitalize;
 }
 .dia {
   flex-basis: 100%;
@@ -879,6 +897,12 @@ h4 {
   .dia {
     flex-basis: calc(33.3% - 1rem);
   }
+}
+
+/*Colorbox*/
+.cboxElement {
+  padding: 30px !important;
+  text-align: center;
 }
 
 /* ==========================================================================
