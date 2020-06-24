@@ -1,5 +1,11 @@
 <?php
-
+use PayPal\Api\Amount;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
 if (isset($_POST['submit'])) {
   $nombre = $_POST['nombre'];
   $apellido = $_POST['apellido'];
@@ -32,90 +38,84 @@ if (isset($_POST['submit'])) {
   } catch (\Exception $e) {
     echo $e->getMessage();
   }
-}
-include_once 'includes/funciones/paypalconfig.php';
-use PayPal\Api\Amount;
-use PayPal\Api\Details;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
+  include_once 'includes/funciones/paypalconfig.php';
 
 // Create new payer and method
-$payer = new Payer();
-$payer->setPaymentMethod("paypal");
+  $payer = new Payer();
+  $payer->setPaymentMethod("paypal");
 
 // Set redirect URLs
-$redirectUrls = new RedirectUrls();
-$redirectUrls->setReturnUrl(URL_SITIO."/pagado.php?id_pago={$ID_cliente}")
-             ->setCancelUrl(URL_SITIO."/pagado.php?id_pago={$ID_cliente}");
+  $redirectUrls = new RedirectUrls();
+  $redirectUrls->setReturnUrl(URL_SITIO."/pagado.php?&id_pago={$ID_cliente}")
+    ->setCancelUrl(URL_SITIO."/pagado.php?&id_pago={$ID_cliente}");
 
-$arregloArticulos = array();
-$i=0;
-foreach ($numeroBoletos as $key => $value){
-  if ((int) $value['cantidad'] > 0){
-    ${"articulo$i"} = new Item();
-    ${"articulo$i"}->setName('Pase: ' . $key)
-                   ->setQuantity((int) $value['cantidad'])
-                   ->setCurrency('USD')
-                   ->setPrice((int) $value['precio']);
-    $arregloArticulos[] = ${"articulo$i"};
-    $i++;
-  }
-}
-foreach ($extras as $key => $value){
-  if ((int) $value['cantidad'] > 0){
-    if ($key == 'camisas'){
-      $precio = ((int) $precioCamisas)*0.93;
+  $arregloArticulos = array();
+  $i=0;
+  foreach ($numeroBoletos as $key => $value){
+    if ((int) $value['cantidad'] > 0){
+      ${"articulo$i"} = new Item();
+      ${"articulo$i"}->setName('Pase: ' . $key)
+        ->setQuantity((int) $value['cantidad'])
+        ->setCurrency('USD')
+        ->setPrice((int) $value['precio']);
+      $arregloArticulos[] = ${"articulo$i"};
+      $i++;
     }
-    else{
-      $precio = ((int) $precioEtiquetas);
-    }
-    ${"articulo$i"} = new Item();
-    ${"articulo$i"}->setName('Articulo: ' . $key)
-                  ->setQuantity($value['cantidad'])
-                  ->setCurrency('USD')
-                  ->setPrice($precio);
-    $arregloArticulos[] = ${"articulo$i"};
-    $i++;
   }
-}
-$listaArticulos = new ItemList();
-$listaArticulos->setItems($arregloArticulos);
+  foreach ($extras as $key => $value){
+    if ((int) $value['cantidad'] > 0){
+      if ($key == 'camisas'){
+        $precio = ((int) $precioCamisas)*0.93;
+      }
+      else{
+        $precio = ((int) $precioEtiquetas);
+      }
+      ${"articulo$i"} = new Item();
+      ${"articulo$i"}->setName('Articulo: ' . $key)
+        ->setQuantity($value['cantidad'])
+        ->setCurrency('USD')
+        ->setPrice($precio);
+      $arregloArticulos[] = ${"articulo$i"};
+      $i++;
+    }
+  }
+  $listaArticulos = new ItemList();
+  $listaArticulos->setItems($arregloArticulos);
 
 // Set payment amount
-$amount = new Amount();
-$amount->setCurrency("USD")
-  ->setTotal($total);
+  $amount = new Amount();
+  $amount->setCurrency("USD")
+    ->setTotal($total);
 
 // Set transaction object
-$transaction = new Transaction();
-$transaction->setAmount($amount)
-  ->setDescription("Payment description")
-  ->setItemList($listaArticulos)
-  ->setInvoiceNumber($ID_cliente);
+  $transaction = new Transaction();
+  $transaction->setAmount($amount)
+    ->setDescription("Payment description")
+    ->setItemList($listaArticulos)
+    ->setInvoiceNumber($ID_cliente);
 
 // Create the full payment object
-$payment = new Payment();
-$payment->setIntent('sale')
-  ->setPayer($payer)
-  ->setRedirectUrls($redirectUrls)
-  ->setTransactions(array($transaction));
+  $payment = new Payment();
+  $payment->setIntent('sale')
+    ->setPayer($payer)
+    ->setRedirectUrls($redirectUrls)
+    ->setTransactions(array($transaction));
 
-try {
-  $payment->create($apiContext);
+  try {
+    $payment->create($apiContext);
 
-  // Get PayPal redirect URL and redirect the customer
-  $approvalUrl = $payment->getApprovalLink();
+    // Get PayPal redirect URL and redirect the customer
+    $approvalUrl = $payment->getApprovalLink();
 
-  // Redirect the customer to $approvalUrl
-} catch (PayPal\Exception\PayPalConnectionException $ex) {
-  echo $ex->getCode();
-  echo $ex->getData();
-  die($ex);
-} catch (Exception $ex) {
-  die($ex);
+    // Redirect the customer to $approvalUrl
+  } catch (PayPal\Exception\PayPalConnectionException $ex) {
+    echo $ex->getCode();
+    echo $ex->getData();
+    die($ex);
+  } catch (Exception $ex) {
+    die($ex);
+  }
+  header("Location: {$approvalUrl}");
+}else{
+  header('Location: http://camp14uav.getenjoyment.net/registro.php');
 }
-header("Location: {$approvalUrl}");

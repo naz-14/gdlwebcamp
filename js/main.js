@@ -40,6 +40,20 @@
     var camisas = document.getElementById("camisa_evento");
 
     registro.disabled = true;
+    const notifCalc = document.querySelector('.notif-calc');
+
+    function notificacionCalcular(){
+      console.log('cambio')
+      if (registro.disabled == true){
+        notifCalc.classList.remove('hidden');
+      }else{
+        notifCalc.classList.add('hidden')
+      }
+    }
+    let observer =new MutationObserver(notificacionCalcular)
+    let config = {attributes: true}
+    observer.observe(registro,config);
+
 
     if (document.getElementById("calcular")) {
       calcular.addEventListener("click", calcularMontos);
@@ -47,6 +61,9 @@
       pase_dia.addEventListener("blur", mostrarDias);
       pase_dosdias.addEventListener("blur", mostrarDias);
       pase_completo.addEventListener("blur", mostrarDias);
+
+      etiquetas.addEventListener('blur',disableReg)
+      camisas.addEventListener('blur',disableReg)
 
       nombre.addEventListener("blur", validarCampos);
       apellido.addEventListener("blur", validarCampos);
@@ -143,6 +160,10 @@
         for (var i = 0; i < dias_elegidos.length; i++) {
           document.getElementById(dias_elegidos[i]).style.display = "block";
         }
+        registro.disabled = true;
+      }
+      function disableReg() {
+        registro.disabled = true;
       }
     }
   }); //DOM CONTENT LOADED

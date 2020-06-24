@@ -69,6 +69,7 @@
         } ?>
         <?php do {
           $resultado = $conn->store_result();
+          echo var_dump($resultado);
           $row = $resultado->fetch_all(MYSQLI_ASSOC);
           $i = 0; ?>
 

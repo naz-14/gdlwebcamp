@@ -26,7 +26,7 @@ function productosJson(&$boletos, &$camisas, &$etiquetas)
   return json_encode($json);
 }
 
-function eventosJson(&$eventos)
+function eventosJson(&$eventos = 0)
 {
   $eventos_json = array();
   foreach ($eventos as $evento) {

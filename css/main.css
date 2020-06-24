@@ -112,7 +112,7 @@ body {
 }
 /******Globales******/
 .contenedor {
-  width: 98%;
+  width: 90%;
   margin: 0 auto;
 }
 @media (min-width: 480px) {
@@ -221,8 +221,9 @@ ul {
   margin-right: 0;
 }
 .informacion-evento {
+  width: 90%;
   text-align: center;
-  margin: 0 auto;
+  margin: 1rem auto 0 auto;
   color: #ffffff;
 }
 .informacion-evento a {
@@ -239,7 +240,7 @@ ul {
 .informacion-evento p {
   margin: 0;
   display: inline;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-transform: uppercase;
 }
 .informacion-evento p i {
@@ -774,12 +775,21 @@ h4 {
 }
 .campo {
   padding: 20px;
+  text-align: center;
+}
+.campo label {
+  display: block;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .campo {
     float: left;
     width: 33.3%;
+  }
+  .campo label {
+    display: inline-block;
+    width: auto;
   }
 }
 .paquetes .tabla-precio:hover {
@@ -831,12 +841,16 @@ h4 {
   margin-bottom: 10px;
 }
 .extras .orden input {
+  width: 100%;
   margin: 10px 0 0 0;
 }
 .resumen .total {
   float: right;
   width: 50%;
   padding: 30px;
+}
+.total{
+  position: relative;
 }
 .resumen input {
   display: block;
@@ -853,7 +867,18 @@ h4 {
   font-size: 2em;
   color: #fe4918;
 }
-
+#btn-registro:disabled{
+  background-color: #b0b4b2;
+  border-color: #b0b4b2;
+}
+.notif-calc{
+  width: 100%;
+  text-align: center;
+  background-color: #fe4918;
+}
+.notif-calc p{
+  font-size: 0.8rem;
+}
 #error {
   text-align: center;
   clear: both;
@@ -898,7 +923,22 @@ h4 {
     flex-basis: calc(33.3% - 1rem);
   }
 }
+/*Pagado*/
+.respuesta .contenedor{
+  text-align: center;
+}
 
+.titulo_pagado{
+  color: #4ab426;
+}
+.titulo_error{
+  color: #d10012;
+}
+@media screen and (min-width: 1200px){
+  .respuesta .contenedor p {
+    font-size: 2rem;
+  }
+}
 /*Colorbox*/
 .cboxElement {
   padding: 30px !important;

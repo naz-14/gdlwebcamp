@@ -6,15 +6,15 @@
     <div id="datos-usuario" class="registro caja clearfix">
       <div class="campo">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+        <input required type="text" id="nombre" name="nombre" placeholder="Tu nombre">
       </div>
       <div class="campo">
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" placeholder="Tu apellido">
+        <input required type="text" id="apellido" name="apellido" placeholder="Tu apellido">
       </div>
       <div class="campo">
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" placeholder="Tu email">
+        <input required type="email" id="email" name="email" placeholder="Tu email">
       </div>
       <div id="error"></div>
     </div>
@@ -186,6 +186,9 @@
           </div>
           <input type="hidden" name="total_pedido" id="total_pedido">
           <input type="submit" id="btn-registro" name="submit" class="button" value="Pagar">
+          <div class="notif-calc">
+            <p>Por favor calcula el precio antes</p>
+          </div>
         </div>
         <!--Total-->
       </div>
